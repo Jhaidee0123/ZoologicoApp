@@ -1,6 +1,6 @@
 ﻿namespace Zoologico.API.Persistencia.Modelos;
 
-public class ExamenLaboratorio
+public class ExamenLaboratorio : ModeloBase
 {
     public string Resultados { get; set; } = string.Empty;
     public DateTime Fecha { get; set; }

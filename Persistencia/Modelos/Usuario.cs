@@ -10,5 +10,5 @@ public class Usuario : IdentityUser
 
     public string NumeroCelular = string.Empty;
 
-    public ICollection<Animal> AnimalesACargo { get; set; } = new List<Animal>();
+    public IEnumerable<Animal> AnimalesACargo { get; set; } = new List<Animal>();
 }

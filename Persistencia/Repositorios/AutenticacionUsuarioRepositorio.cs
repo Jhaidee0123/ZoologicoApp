@@ -4,8 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Zoologico.API.Persistencia.Modelos;
+using Zoologico.API.Persistencia.Repositorios.Autenticacion;
 
-namespace Zoologico.API.Persistencia.Repositorios.Autenticacion;
+namespace Zoologico.API.Persistencia.Repositorios;
 
 public class AutenticacionUsuarioRepositorio : IAutenticacionUsuarioRepositorio
 {
@@ -51,7 +52,7 @@ public class AutenticacionUsuarioRepositorio : IAutenticacionUsuarioRepositorio
         return (new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
     }
 
-    public async Task RegistrarUsuario(string usuario, string email, string password, string nombre, string apellido, string rol)
+    public async Task RegistrarUsuario(string usuario, string email, string password, string nombre, string apellido, string rol, string numeroCelular)
     {
         var usuarioExiste = await _usuarioManager.FindByNameAsync(usuario);
         if (usuarioExiste is not null)
@@ -59,16 +60,17 @@ public class AutenticacionUsuarioRepositorio : IAutenticacionUsuarioRepositorio
             throw new InvalidOperationException("Este usuario ya existe.");
         }
 
-        var student = new Usuario
+        var nuevoUsuario = new Usuario
         {
             Email = email,
             SecurityStamp = Guid.NewGuid().ToString(),
             UserName = usuario,
             Nombre = nombre,
-            Apellido = apellido
+            Apellido = apellido,
+            PhoneNumber = numeroCelular
         };
 
-        var resultado = await _usuarioManager.CreateAsync(student, password);
+        var resultado = await _usuarioManager.CreateAsync(nuevoUsuario, password);
         if (!resultado.Succeeded)
         {
             throw new InvalidOperationException("Hubo un error en el registro del usuario");
@@ -83,7 +85,7 @@ public class AutenticacionUsuarioRepositorio : IAutenticacionUsuarioRepositorio
 
         if (await _rolManager.RoleExistsAsync(rol))
         {
-            await _usuarioManager.AddToRoleAsync(student, rol);
+            await _usuarioManager.AddToRoleAsync(nuevoUsuario, rol);
         }
     }
 }

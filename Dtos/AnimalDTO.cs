@@ -1,6 +1,6 @@
-﻿namespace Zoologico.API.Persistencia.Modelos;
+﻿namespace Zoologico.API.Dtos;
 
-public class Animal : ModeloBase
+public class AnimalDTO
 {
     public string Especie { get; set; } = string.Empty;
     public string Habitat { get; set; } = string.Empty;
@@ -15,7 +15,4 @@ public class Animal : ModeloBase
     public string Medicamentos { get; set; } = string.Empty;
     public string OtrosDatos { get; set; } = string.Empty;
     public Guid CuidadorId { get; set; }
-    public Usuario Cuidador { get; set; } = new Usuario();
-    public IEnumerable<ExamenLaboratorio> ExamenesLaboratorio { get; set; } = new List<ExamenLaboratorio>();
-    public IEnumerable<ConsultaMedica> ConsultasMedicas { get; set; } = new List<ConsultaMedica>();
 }

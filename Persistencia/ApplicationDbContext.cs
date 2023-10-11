@@ -1,19 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using Zoologico.API.Persistencia.Modelos;
 
 namespace Zoologico.API.Persistencia;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<Usuario>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    // Define tus entidades aquí
-    public DbSet<YourEntity> YourEntities { get; set; }
+    public DbSet<Animal> Animales { get; set; }
+    public DbSet<ConsultaMedica> ConsultasMedicas { get; set; }
+    public DbSet<ExamenLaboratorio> ExamenesLaboratorio { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configura tus modelos aquí si es necesario
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

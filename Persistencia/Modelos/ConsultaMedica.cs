@@ -1,6 +1,6 @@
 ﻿namespace Zoologico.API.Persistencia.Modelos;
 
-public class ConsultaMedica
+public class ConsultaMedica : ModeloBase
 {
     public DateTime Fecha { get; set; }
     public string NombreProfesional { get; set; } = string.Empty;
